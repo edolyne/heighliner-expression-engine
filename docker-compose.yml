@@ -1,0 +1,29 @@
+
+heighliner:
+  build: .
+  command: "supervisor index.js"
+  ports:
+    - "8080:8080"
+  volumes:
+    - .:/usr/src/app/
+  links:
+    - mySQL
+    - mongoDB
+
+mySQL:
+  image: mysql
+  volumes:
+    # - ./data:/var/lib/mysql
+    - ./util/db/mysql:/etc/mysql/conf.d
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_DATABASE: ee_local
+    MYSQL_USER: root
+
+mongoDB:
+  image: mongo
+  command: "--smallfiles --port 27027 -v"
+  ports:
+    - "27017:27017"
