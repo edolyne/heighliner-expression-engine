@@ -1,11 +1,5 @@
-
-
-# Remove leading # to turn on a very important data integrity option: logging
-# changes to the binary log between backups.
-# log_bin
-server_id = 5541
-binlog_format=row
-log_bin     = /var/log/mysql/mysql-bin.log
-# binlog_checksum=CRC32
-expire_logs_days  = 10
-max_binlog_size         = 100M
+[mysqld]
+server-id = 1
+binlog_do_db = ee_local
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_format = row
