@@ -18,12 +18,12 @@ const SQLSettings = {
   minInterval : 200
 };
 
-const liveDb = new LiveSelect(SQLSettings, (err) => {
+const mySQL = new LiveSelect(SQLSettings, (err) => {
   if (err) { console.log(err); }
 });
 
 function closeAndExit() {
-  liveDb.end();
+  mySQL.end();
   process.exit();
   return
 }
@@ -42,8 +42,18 @@ process.on("SIGINT", closeAndExit);
 */
 Mongoose.connect("mongodb://192.168.99.100/test");
 
-const db = Mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function (callback) {
+const MongoDB = Mongoose.connection;
+MongoDB.on("error", console.error.bind(console, "connection error:"));
+MongoDB.once("open", function (callback) {
   // yay!
 })
+
+/*
+
+  Library
+
+
+*/
+const Sync = require("./lib/sync");
+
+Sync(mySQL, MongoDB);

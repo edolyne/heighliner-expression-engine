@@ -2,8 +2,6 @@
 heighliner:
   build: .
   command: "supervisor index.js"
-  ports:
-    - "8080:8080"
   volumes:
     - .:/usr/src/app/
   links:
@@ -13,9 +11,7 @@ heighliner:
 mySQL:
   image: mysql:5.7
   volumes:
-    # - ./.data:/var/lib/mysql/
     - ./util/db/mysql/:/etc/mysql/conf.d
-    - ./data/mysql:/var/lib/mysql
   ports:
     - "3306:3306"
   environment:
@@ -25,7 +21,5 @@ mySQL:
 
 mongoDB:
   image: mongo:latest
-  volumes:
-    - ./data/mongodb:/data/db
   ports:
     - "27017:27017"
