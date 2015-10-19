@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/NewSpring/heighliner-expression-engine#readme",
   "dependencies": {
+    "mongoose": "^4.1.11",
     "mysql-live-select": "^1.0.3"
   }
 }

@@ -8,14 +8,14 @@ heighliner:
     - .:/usr/src/app/
   links:
     - mySQL
-# #     # - mongoDB
+    - mongoDB
 
 mySQL:
   image: mysql:5.7
   volumes:
     # - ./.data:/var/lib/mysql/
     - ./util/db/mysql/:/etc/mysql/conf.d
-    - ./.data/mysql:/var/lib/mysql
+    - ./data/mysql:/var/lib/mysql
   ports:
     - "3306:3306"
   environment:
@@ -23,21 +23,9 @@ mySQL:
     MYSQL_DATABASE: ee_local
     MYSQL_USER: root
 
-# mongoDB:
-#   image: mongo
-#   command: "--smallfiles --port 27027 -v"
-#   ports:
-#     - "27017:27017"
-
-
-# docker run -d \
-#   --name mysql \
-#   -v /var/lib/mysql:/var/lib/mysql \
-#   -e "MYSQL_ROOT_PASSWORD=password MYSQL_DATABASE=ee_local MYSQL_USER=root" \
-#   mysql:5.7 \
-#   mysqld \
-#   --datadir=/var/lib/mysql \
-#   --user=mysql \
-#   --server-id=1 \
-#   --log-bin=/var/lib/mysql/mysql-bin.log \
-#   --binlog_do_db=test
+mongoDB:
+  image: mongo:latest
+  volumes:
+    - ./data/mongodb:/data/db
+  ports:
+    - "27017:27017"
