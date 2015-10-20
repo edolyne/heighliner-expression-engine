@@ -25,4 +25,4 @@ LEFT JOIN
     ON t.author_id = esc(m.member_id)
 WHERE
   d.channel_id=27
-LIMIT 1
+LIMIT 2
