@@ -10,13 +10,16 @@ const LiveSelect = require("mysql-live-select"),
 
 */
 const SQLSettings = {
-  host        : "192.168.99.100",
-  user        : "root",
-  password    : "password",
-  database    : "ee_local",
-  serverId    : 256,
-  minInterval : 200
+  host        : process.env.MYSQL_HOST || "192.168.99.100",
+  user        : process.env.MYSQL_USER || "root",
+  password    : process.env.MYSQL_PASSWORD || "password",
+  database    : process.env.MYSQL_DB || "ee_local",
+  port        : 3306,
+  minInterval : 200,
+  connectTimeout: 20000,
+  ssl: process.env.MYSQL_SSL || false
 };
+
 
 const mySQL = new LiveSelect(SQLSettings, (err) => {
   if (err) { console.log(err); }
@@ -40,7 +43,8 @@ process.on("SIGINT", closeAndExit);
   Mongo
 
 */
-Mongoose.connect("mongodb://192.168.99.100/test");
+let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
+Mongoose.connect(mongoURL);
 
 const MongoDB = Mongoose.connection;
 MongoDB.on("error", console.error.bind(console, "connection error:"));
