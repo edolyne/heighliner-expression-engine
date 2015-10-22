@@ -11,6 +11,7 @@ This is a node application that relies on a connection to a mySQL instance (with
 To run locally you need docker-compose installed. Then run
 
 ```bash
+$ npm install
 $ docker-compose build
 $ docker-compose up
 ```
