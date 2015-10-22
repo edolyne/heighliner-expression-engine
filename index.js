@@ -57,7 +57,8 @@ if (process.env.MONGO_SSL) {
   const cert = Fs.readFileSync("./compose.pem");
   opts.server = {
     sslValidate: true,
-    sslCA: [cert]
+    sslCA: [cert],
+    connectWithNoPrimary: true
   }
 }
 
