@@ -14,4 +14,5 @@ deployment:
     branch: master
     commands:
       - echo $MONGO_PEM > compose.pem
+      - git add . # used to trigger line 24 of flightplan
       - fly production --harmony

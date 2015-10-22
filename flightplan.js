@@ -22,6 +22,7 @@ plan.local(function(local) {
 
   local.log("Copy files to remote hosts");
   var filesToCopy = local.exec("git ls-files", {silent: true});
+  console.log(filesToCopy);
   // rsync files to all the target"s remote hosts
   local.transfer(filesToCopy, "/tmp/" + tmpDir);
 });
@@ -49,5 +50,6 @@ plan.remote(function(remote) {
 
   remote.log("Reload application");
   remote.exec("ln -snf ~/" + tmpDir + " ~/" + site);
-  remote.exec("pm2 reload " + site + " --node-args=\"--harmony\"");
+  remote.exec("pm2 stop " + site);
+  remote.exec("pm2 start " + site + " --node-args=\"--harmony\"");
 });
