@@ -2,6 +2,7 @@
 
 const LiveSelect = require("mysql-live-select"),
       Fs = require("fs"),
+      Path = require("path"),
       Mongoose = require('mongoose');
 
 
@@ -54,7 +55,7 @@ let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
 
 let opts = {};
 if (process.env.MONGO_SSL) {
-  const cert = Fs.readFileSync("./compose.pem");
+  const cert = Fs.readFileSync(Path.join(__dirname, "compose.pem"));
   opts.server = {
     sslValidate: true,
     sslCA: [cert],
@@ -73,8 +74,9 @@ MongoDB.on("error", (err) => {
 MongoDB.once("open", function (callback) {
   // yay!
 })
-
-
+// "mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.1.dblayer.com:10863,aws-us-east-1-portal.0.dblayer.com:10863/apollos-mongodb&db=alpha"
+// mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.1.dblayer.com:10863,aws-us-east-1-portal.0.dblayer.com:10863/alpha?ssl=true
+// mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.0.dblayer.com:10863/alpha?ssl=true
 /*
 
   Library

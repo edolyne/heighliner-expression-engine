@@ -73,6 +73,7 @@ module.exports.collection = "editorial";
 module.exports.schema = {
   entryId: String,
   status: String,
+  title: String,
   meta: {
     urlTitle: String,
     siteId: String,
