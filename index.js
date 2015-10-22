@@ -60,7 +60,7 @@ if (process.env.MONGO_SSL) {
     sslValidate: true,
     sslCA: [cert],
     connectWithNoPrimary: true,
-    ca: [cert]
+    ca: [cert],
     ssl: true,
     poolSize: 1,
     reconnectTries: 1
