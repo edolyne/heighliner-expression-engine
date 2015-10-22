@@ -39,17 +39,20 @@ plan.remote(function(remote) {
                             + " install ~/" + tmpDir);
 
   remote.log("Setting environment variables");
-  remote.exec(
-    "set MYSQL_HOST=" + process.env.MYSQL_HOST +
-    " MYSQL_DB=" + process.env.MYSQL_DB +
-    " MYSQL_USER=" + process.env.MYSQL_USER +
-    " MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD +
-    " MONGO_URL=" + process.env.MONGO_URL +
-    " MYSQL_SSL=true"
-  );
+  var envVars = [
+    "MYSQL_HOST=" + process.env.MYSQL_HOST,
+    "MYSQL_DB=" + process.env.MYSQL_DB,
+    "MYSQL_USER=" + process.env.MYSQL_USER,
+    "MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD,
+    "MONGO_URL=" + process.env.MONGO_URL,
+    "MYSQL_SSL=true"
+  ];
 
   remote.log("Reload application");
   remote.exec("ln -snf ~/" + tmpDir + " ~/" + site);
+  remote.exec("nvm use 4.2.1");
   remote.exec("pm2 stop " + site);
-  remote.exec("pm2 start " + site + " --node-args=\"--harmony\"");
+  remote.exec(
+    envVars.join(" ") + "pm2 start " + site + " --node-args=\"--harmony\""
+  );
 });
