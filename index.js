@@ -1,6 +1,7 @@
 "use strict";
 
 const LiveSelect = require("mysql-live-select"),
+      Fs = require("fs"),
       Mongoose = require('mongoose');
 
 
@@ -20,13 +21,19 @@ const SQLSettings = {
   ssl: process.env.MYSQL_SSL || false
 };
 
-
+let started = false;
 const mySQL = new LiveSelect(SQLSettings, (err) => {
   if (err) { console.log(err); closeAndExit(); }
+
+  started = true;
 });
 
 function closeAndExit() {
-  mySQL.end();
+
+  if (started) {
+    mySQL.end();
+  }
+
   process.exit();
   return
 }
@@ -44,7 +51,17 @@ process.on("SIGINT", closeAndExit);
 
 */
 let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
-Mongoose.connect(mongoURL);
+
+let opts = {};
+if (process.env.MONGO_SSL) {
+  const cert = Fs.readFileSync("./compose.pem");
+  opts.server = {
+    sslValidate: true,
+    sslCA: [cert]
+  }
+}
+
+Mongoose.connect(mongoURL, opts);
 
 const MongoDB = Mongoose.connection;
 

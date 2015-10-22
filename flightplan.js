@@ -43,7 +43,8 @@ plan.remote(function(remote) {
     " MYSQL_DB=" + process.env.MYSQL_DB +
     " MYSQL_USER=" + process.env.MYSQL_USER +
     " MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD +
-    " MONGO_URL=" + process.env.MONGO_URL
+    " MONGO_URL=" + process.env.MONGO_URL +
+    " MYSQL_SSL=true"
   );
 
   remote.log("Reload application");

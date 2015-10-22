@@ -13,4 +13,5 @@ deployment:
   hub:
     branch: master
     commands:
+      - echo $MONGO_PEM > compose.pem
       - fly production --harmony
