@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 4.1.1
+    version: 0.12.7
 
 ## Customize dependencies
 dependencies:
@@ -13,4 +13,4 @@ deployment:
   hub:
     branch: master
     commands:
-      - fly production
+      - fly production --harmony
