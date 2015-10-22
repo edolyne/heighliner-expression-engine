@@ -52,6 +52,6 @@ plan.remote(function(remote) {
   remote.exec("ln -snf ~/" + tmpDir + " ~/" + site);
   remote.exec("pm2 stop " + site);
   remote.exec(
-    envVars.join(" ") + "pm2 start " + site + " --node-args=\"--harmony\""
+    envVars.join(" ") + " pm2 start " + site + " --node-args=\"--harmony\""
   );
 });
