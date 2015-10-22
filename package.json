@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/NewSpring/heighliner-expression-engine#readme",
   "dependencies": {
+    "flightplan": "^0.6.6",
     "glob": "^5.0.15",
     "lodash": "^3.10.1",
     "mongoose": "^4.1.11",

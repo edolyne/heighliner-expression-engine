@@ -1,0 +1,16 @@
+machine:
+  node:
+    version: 4.1.1
+
+## Customize dependencies
+dependencies:
+  cache_directories:
+    - "node_modules/"
+  pre:
+    - npm install -g flightplan
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - fly production

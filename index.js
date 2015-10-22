@@ -22,7 +22,7 @@ const SQLSettings = {
 
 
 const mySQL = new LiveSelect(SQLSettings, (err) => {
-  if (err) { console.log(err); }
+  if (err) { console.log(err); closeAndExit(); }
 });
 
 function closeAndExit() {
@@ -47,7 +47,11 @@ let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
 Mongoose.connect(mongoURL);
 
 const MongoDB = Mongoose.connection;
-MongoDB.on("error", console.error.bind(console, "connection error:"));
+
+MongoDB.on("error", (err) => {
+  if (err) { console.log(err); closeAndExit(); }
+});
+
 MongoDB.once("open", function (callback) {
   // yay!
 })
