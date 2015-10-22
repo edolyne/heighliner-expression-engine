@@ -49,5 +49,5 @@ plan.remote(function(remote) {
 
   remote.log("Reload application");
   remote.exec("ln -snf ~/" + tmpDir + " ~/" + site);
-  remote.exec("pm2 reload " + site);
+  remote.exec("pm2 reload " + site + " --node-args=\"--harmony\"");
 });
