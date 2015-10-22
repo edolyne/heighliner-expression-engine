@@ -40,7 +40,7 @@ plan.remote(function(remote) {
 
   remote.log("Setting environment variables");
   remote.exec(
-    "export MYSQL_HOST=" + process.env.MYSQL_HOST +
+    "set MYSQL_HOST=" + process.env.MYSQL_HOST +
     " MYSQL_DB=" + process.env.MYSQL_DB +
     " MYSQL_USER=" + process.env.MYSQL_USER +
     " MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD +
