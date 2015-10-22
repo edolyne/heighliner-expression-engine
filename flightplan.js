@@ -50,7 +50,6 @@ plan.remote(function(remote) {
 
   remote.log("Reload application");
   remote.exec("ln -snf ~/" + tmpDir + " ~/" + site);
-  remote.exec("nvm use 4.2.1");
   remote.exec("pm2 stop " + site);
   remote.exec(
     envVars.join(" ") + "pm2 start " + site + " --node-args=\"--harmony\""
