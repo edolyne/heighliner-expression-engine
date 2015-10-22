@@ -59,7 +59,11 @@ if (process.env.MONGO_SSL) {
   opts.server = {
     sslValidate: true,
     sslCA: [cert],
-    connectWithNoPrimary: true
+    connectWithNoPrimary: true,
+    ca: [cert]
+    ssl: true,
+    poolSize: 1,
+    reconnectTries: 1
   }
 }
 
@@ -74,9 +78,7 @@ MongoDB.on("error", (err) => {
 MongoDB.once("open", function (callback) {
   // yay!
 })
-// "mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.1.dblayer.com:10863,aws-us-east-1-portal.0.dblayer.com:10863/apollos-mongodb&db=alpha"
-// mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.1.dblayer.com:10863,aws-us-east-1-portal.0.dblayer.com:10863/alpha?ssl=true
-// mongodb://apollos:fo44BydLVHBZ@aws-us-east-1-portal.0.dblayer.com:10863/alpha?ssl=true
+
 /*
 
   Library
