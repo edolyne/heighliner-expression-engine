@@ -8,11 +8,12 @@ dependencies:
     - "node_modules/"
   pre:
     - npm install -g flightplan
+    - git clone https://github.com/NewSpring/ops-settings.git
 
 deployment:
   hub:
     branch: master
     commands:
-      - echo $MONGO_PEM > compose.pem
+      - cp ./ops-settings/sites/app.newspring.io/compose.pem ./
       - git add . # used to trigger line 24 of flightplan
       - fly production --harmony
