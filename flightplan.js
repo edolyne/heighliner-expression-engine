@@ -1,7 +1,7 @@
 "use strict";
 
 // flightplan.js
-const plan = require("flightplan"),
+var plan = require("flightplan"),
       user = "ubuntu",
       site = "expression-engine-heighliner";
 
@@ -13,7 +13,7 @@ plan.target("production", [
   }
 ]);
 
-const tmpDir = site + "-" + new Date().getTime();
+var tmpDir = site + "-" + new Date().getTime();
 
 // run commands on localhost
 plan.local(function(local) {
@@ -21,7 +21,7 @@ plan.local(function(local) {
   local.exec("npm i");
 
   local.log("Copy files to remote hosts");
-  let filesToCopy = local.exec("git ls-files", {silent: true});
+  var filesToCopy = local.exec("git ls-files", {silent: true});
   // rsync files to all the target"s remote hosts
   local.transfer(filesToCopy, "/tmp/" + tmpDir);
 });
@@ -39,11 +39,11 @@ plan.remote(function(remote) {
 
   remote.log("Setting environment variables");
   remote.exec(
-    `export MYSQL_HOST=${process.env.MYSQL_HOST} ` +
-    `MYSQL_DB=${process.env.MYSQL_DB} ` +
-    `MYSQL_USER=${process.env.MYSQL_USER} ` +
-    `MYSQL_PASSWORD=${process.env.MYSQL_PASSWORD} ` +
-    `MONGO_URL=${process.env.MONGO_URL}`
+    "export MYSQL_HOST=" + process.env.MYSQL_HOST +
+    " MYSQL_DB=" + process.env.MYSQL_DB +
+    " MYSQL_USER=" + process.env.MYSQL_USER +
+    " MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD +
+    " MONGO_URL=" + process.env.MONGO_URL
   );
 
   remote.log("Reload application");
