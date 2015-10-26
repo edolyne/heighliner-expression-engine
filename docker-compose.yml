@@ -9,7 +9,7 @@ heighliner:
     - mongoDB
 
 mySQL:
-  image: mysql:5.7
+  image: mysql:5.5
   volumes:
     - ./util/db/mysql/:/etc/mysql/conf.d
   ports:
