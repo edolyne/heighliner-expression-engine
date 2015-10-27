@@ -71,7 +71,8 @@ module.exports = function(doc){
     content: {
       body: markup,
       scripture: scripture,
-      tags: tags
+      tags: tags,
+      ooyalaId: doc.field_id_668
     },
     author: {
       author_id: doc.author_id,
@@ -113,7 +114,7 @@ module.exports.schema = {
     scripture: String,  // field_id_654
     tags: String,       // field_id_1028
     image: String,      // field_id_664
-    video: String       // field_id_668
+    ooyalaId: String    // field_id_668
   },
   author: {
     authorId: String,   // author_id
