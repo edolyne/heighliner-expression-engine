@@ -25,6 +25,21 @@ function cleanMarkup(markup){
   return markup.replace(/https*:\/\//g, "\/\/");
 }
 
+function parseSeries(series){
+  if (!series) {
+    return false;
+  }
+
+  // format: [dddd] [some-thing] Series Title
+  // match[1]: series id
+  // match[2]: series slug
+  // match[3]: series name
+  const seriesRegex = /\[(\d*)\] \[(.*)\] (.*)/g;
+  const parsed = seriesRegex.exec(series);
+
+  return parsed;
+}
+
 module.exports = function(doc){
   let tags = []
   if (doc.field_id_1028) {
@@ -39,6 +54,8 @@ module.exports = function(doc){
   const scripture = doc.field_id_654 === "1" ? false : doc.field_id_654;
 
   const markup = cleanMarkup(doc.field_id_18);
+
+  const series = parseSeries(doc.field_id_653);
 
   let cleanedData = {
     entryId: doc.entry_id,
@@ -60,6 +77,11 @@ module.exports = function(doc){
       firstName: doc.m_field_id_2 || false,
       lastName: doc.m_field_id_3 || false,
       fullName: doc.m_field_id_4 || false
+    },
+    series: {
+      seriesId: series[1],
+      slug: series[2],
+      title: series[3]
     }
   }
 
@@ -71,25 +93,37 @@ module.exports.identifier = "entry_id"
 module.exports.collection = "editorial";
 
 module.exports.schema = {
-  entryId: String,
-  status: String,
-  title: String,
+  entryId: String,      // entry_id
+  status: String,       // status
+  title: String,        // title
   meta: {
-    urlTitle: String,
-    siteId: String,
-    date: Date,
-    channelId: String
+    urlTitle: String,   // url_title
+    siteId: String,     // site_id
+    date: Date,         //
+    channelId: String   // channel_id
   },
   content: {
-    body: String,
-    scripture: String,
-    tags: String
+    body: String,       // field_id_18
+    scripture: String,  // field_id_654
+    tags: String,       // field_id_1028
+    image: String,      // field_id_664
+    video: String       // field_id_668
   },
   author: {
-    authorId: String,
-    firstName: String,
-    lastName: String,
-    fullName: String
+    authorId: String,   // author_id
+    firstName: String,  // m_field_id_2
+    lastName: String,   // m_field_id_3
+    fullName: String    // m_field_id_4
+  },
+  series: {             // field_id_653
+    seriesId: String,
+    slug: String,
+    title: String
+  },
+  fuseSeries: {         // field_id_1178
+    seriesId: String,
+    slug: String,
+    title: String
   }
 }
 
