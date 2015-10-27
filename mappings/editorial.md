@@ -68,3 +68,50 @@ WHERE
 LIMIT 2
 
 ```
+
+### Images
+
+*field_id_664*
+
+  - list of image placements
+  - "Hero Image\nBackground Image"
+
+*exp_assets_selections*
+
+  - table of image selections
+  - use `entry_id` to pull up all image selections
+  - `file_id` of image in `exp_assets_files`
+  - `col_id` maps to `exp_matrix_cols` for names of columns and to `exp_matrix_data` for other stuff
+  - `row_id` maps to which `exp_matrix_data` row
+
+*exp_matrix_data*
+
+  - `col_id_218` is the image type "Hero Image" or "Background Image"
+
+```sql
+SELECT
+  da.col_id_218,
+  c.col_name,
+  c.col_label,
+  f.file_name,
+  so.settings
+FROM
+  exp_channel_data as d
+LEFT JOIN
+  exp_assets_selections as s
+    ON d.entry_id = s.entry_id
+LEFT JOIN
+  exp_matrix_data as da
+    ON s.row_id = da.row_id
+LEFT JOIN
+  exp_matrix_cols as c
+    ON s.col_id = c.col_id
+LEFT JOIN
+  exp_assets_files as f
+    ON s.file_id = f.file_id
+LEFT JOIN
+  exp_assets_sources as so
+    ON f.source_id = so.source_id
+WHERE
+  d.entry_id=309717
+```
