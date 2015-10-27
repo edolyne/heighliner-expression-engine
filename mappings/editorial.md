@@ -9,7 +9,7 @@ Fields:
 |-------:|---------:|----------:|---------:|
 |18|editorial_legacy_body|Body|wygwam|
 |664|editorial_image|Image(s)|matrix|
-|663|editorial_link|Link|matrix|
+<!-- |663|editorial_link|Link|matrix| -->
 <!-- |651|editorial_campus|Campus|playa| -->
 |653|editorial_series_newspring|Series|playa|
 |654|editorial_scripture|Scripture|matrix|
