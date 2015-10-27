@@ -56,6 +56,7 @@ module.exports = function(doc){
   const markup = cleanMarkup(doc.field_id_18);
 
   const series = parseSeries(doc.field_id_653);
+  const fuseSeries = parseSeries(doc.field_id_1178);
 
   let cleanedData = {
     entryId: doc.entry_id,
@@ -82,6 +83,11 @@ module.exports = function(doc){
       seriesId: series[1],
       slug: series[2],
       title: series[3]
+    },
+    fuseSeries: {
+      seriesId: fuseSeries[1],
+      slug: fuseSeries[2],
+      title: fuseSeries[3]
     }
   }
 
