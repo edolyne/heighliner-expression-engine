@@ -47,6 +47,11 @@ module.exports = function(doc){
     tags = tags.split("\n");
   }
 
+  let images = [];
+  if (doc.field_id_664) {
+    images = doc.field_id_664.replace("\\n", ",");
+    images = images.split("\n").filter(image => !!image);
+  }
 
   const month = Number(doc.month) - 1;
   const date = new Date(doc.year, month, doc.day);
@@ -72,7 +77,8 @@ module.exports = function(doc){
       body: markup,
       scripture: scripture,
       tags: tags,
-      ooyalaId: doc.field_id_668
+      ooyalaId: doc.field_id_668,
+      images: images
     },
     author: {
       author_id: doc.author_id,
@@ -113,8 +119,8 @@ module.exports.schema = {
     body: String,       // field_id_18
     scripture: String,  // field_id_654
     tags: String,       // field_id_1028
-    image: String,      // field_id_664
-    ooyalaId: String    // field_id_668
+    ooyalaId: String,   // field_id_668
+    images: String      // field_id_664
   },
   author: {
     authorId: String,   // author_id
