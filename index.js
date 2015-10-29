@@ -18,7 +18,7 @@ const LiveSelect = require("mysql-live-select"),
 
 */
 const SQLSettings = {
-  host        : process.env.MYSQL_HOST || "192.168.99.100",
+  host        : process.env.MYSQL_HOST || "192.168.99.101",
   user        : process.env.MYSQL_USER || "root",
   password    : process.env.MYSQL_PASSWORD || "password",
   database    : process.env.MYSQL_DB || "ee_local",
@@ -34,6 +34,7 @@ const mySQL = new LiveSelect(SQLSettings, (err) => {
 
   started = true;
 });
+
 
 function closeAndExit() {
 
@@ -57,7 +58,7 @@ process.on("SIGINT", closeAndExit);
   Mongo
 
 */
-let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
+let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.101/test"
 
 let opts = {};
 if (process.env.MONGO_SSL) {

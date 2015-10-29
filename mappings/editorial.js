@@ -1,5 +1,20 @@
 "use strict";
 
+const Path = require("path"),
+      Fs = require("fs"),
+      deasync = require("deasync"),
+      MySQL = require("mysql");
+
+const SQLSettings = {
+  host        : process.env.MYSQL_HOST || "192.168.99.101",
+  user        : process.env.MYSQL_USER || "root",
+  password    : process.env.MYSQL_PASSWORD || "password",
+  database    : process.env.MYSQL_DB || "ee_local",
+  port        : 3306,
+  minInterval : 200,
+  connectTimeout: 20000,
+  ssl: process.env.MYSQL_SSL || false
+};
 
 function cleanMarkup(markup){
   if (!markup) {
@@ -40,6 +55,50 @@ function parseSeries(series){
   return parsed;
 }
 
+function getImages(entryId, images, done) {
+  let results = [];
+  const mysql = MySQL.createConnection(SQLSettings);
+  mysql.connect();
+
+
+  console.log(images);
+  for (let image in images) {
+    let query = Fs.readFileSync(
+      Path.join(__dirname, "../images/images.sql"),
+      { encoding: "utf8" }
+    ).toString()
+
+    query = query.replace("entryId()", entryId);
+    query = query.replace("imageName()", images[image]);
+
+    console.log(query);
+
+    mysql.query(query, function(err, rows, fields) {
+      if (err) throw err;
+
+      console.log(rows.length, rows);
+
+      results.push(rows[0]);
+    });
+  };
+
+  // make synchronous
+  while (results.length !== images.length) {
+    deasync.runLoopOnce();
+  }
+  mysql.end();
+
+  return results.map(result => {
+    return {
+      position: result.col_id_218,
+      fileName: result.file_name,
+      type: result.col_name,
+      label: result.col_label,
+      settings: result.settings
+    }
+  });
+}
+
 module.exports = function(doc){
   let tags = []
   if (doc.field_id_1028) {
@@ -51,6 +110,8 @@ module.exports = function(doc){
   if (doc.field_id_664) {
     images = doc.field_id_664.replace("\\n", ",");
     images = images.split("\n").filter(image => !!image);
+    let done = false;
+    images = getImages(doc.entry_id, images, done);
   }
 
   const month = Number(doc.month) - 1;
@@ -120,7 +181,12 @@ module.exports.schema = {
     scripture: String,  // field_id_654
     tags: String,       // field_id_1028
     ooyalaId: String,   // field_id_668
-    images: String      // field_id_664
+    images: [{}]          // field_id_664
+      // name: String,     // col_id_218
+      // type: String,     // col_name
+      // label: String,    // col_label
+      // settings: String  // settings
+    // }]
   },
   author: {
     authorId: String,   // author_id

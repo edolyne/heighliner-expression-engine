@@ -29,9 +29,5 @@ LEFT JOIN
   exp_member_data as m
     ON t.author_id = esc(m.member_id)
 WHERE
-  d.channel_id=30
-AND
-  d.entry_id=309717
-AND
-  d.field_id_664 != ""
+  d.entry_id=303064
 LIMIT 50
