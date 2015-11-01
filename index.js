@@ -20,7 +20,7 @@ const SQLSettings = {
   database    : process.env.MYSQL_DB || "ee_local",
   port        : 3306,
   minInterval : 200,
-  connectTimeout: 20000,
+  connectTimeout: 200000,
   ssl: process.env.MYSQL_SSL || false
 };
 
