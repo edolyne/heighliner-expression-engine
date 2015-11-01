@@ -63,12 +63,12 @@ function getImages(entryId, images) {
 
       imageData.rows.map(row => {
         const settings = JSON.parse(row.settings);
-        const url = settings.url_prefix + settings.subfolder + row.file_name
+        const url = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name
         results.push({
-          position: row.col_id_218,
+          position: row.position,
           fileName: row.file_name,
-          type: row.col_name,
-          label: row.col_label,
+          type: row.image_type,
+          label: row.image_label,
           url: url
         })
       });
@@ -89,7 +89,9 @@ module.exports = function(doc){
   if (doc.field_id_664) {
     images = doc.field_id_664.replace("\\n", ",");
     images = images.split("\n").filter(image => !!image);
-    images = getImages(doc.entry_id, images);
+    if (images.length) {
+      images = getImages(doc.entry_id, images);
+    }
   }
 
   const month = Number(doc.month) - 1;

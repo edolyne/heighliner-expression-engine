@@ -1,8 +1,9 @@
 SELECT
-  da.col_id_218,
-  c.col_name,
-  c.col_label,
+  da.col_id_218 as position,
+  c.col_name as image_type,
+  c.col_label as image_label,
   f.file_name,
+  fo.full_path as sub_path,
   so.settings
 FROM
   exp_channel_data as d
@@ -18,6 +19,9 @@ LEFT JOIN
 LEFT JOIN
   exp_assets_files as f
     ON s.file_id = f.file_id
+LEFT JOIN
+  exp_assets_folders as fo
+    ON f.folder_id = fo.folder_id
 LEFT JOIN
   exp_assets_sources as so
     ON f.source_id = so.source_id
