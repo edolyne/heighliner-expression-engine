@@ -6,6 +6,7 @@ const Path = require("path"),
       mySQL = require("../lib/mysql");
 
 
+
 function cleanMarkup(markup){
   if (!markup) {
     return false;
@@ -52,6 +53,7 @@ function getImages(entryId, images) {
   for (let image in images) {
       let queryPath = Path.join(__dirname, "./util/images.sql");
 
+
       const imageData = mySQL(queryPath,
         {
           entryId: entryId,
@@ -59,11 +61,19 @@ function getImages(entryId, images) {
         }
       );
 
-      results.push(imageData.rows[0]);
+      imageData.rows.map(row => {
+        const settings = JSON.parse(row.settings);
+        const url = settings.url_prefix + settings.subfolder + row.file_name
+        results.push({
+          position: row.col_id_218,
+          fileName: row.file_name,
+          type: row.col_name,
+          label: row.col_label,
+          url: url
+        })
+      });
 
   };
-
-
 
   return results;
 }
