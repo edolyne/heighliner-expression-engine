@@ -59,15 +59,14 @@ let opts = {};
 if (process.env.MONGO_SSL) {
   const cert = Fs.readFileSync(Path.join(__dirname, "compose.pem"));
   opts.server = {
-    mongos: {
-      sslValidate: true,
-      sslCA: [cert],
-      connectWithNoPrimary: true
-      // ca: [cert],
-      // ssl: true,
-      // poolSize: 1,
-      // reconnectTries: 1
-    }
+    sslValidate: true,
+    sslCA: [cert],
+    connectWithNoPrimary: true
+    // ca: [cert],
+    // ssl: true,
+    // poolSize: 1,
+    // reconnectTries: 1
+
   }
 }
 
