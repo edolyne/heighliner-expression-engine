@@ -22,6 +22,6 @@ LEFT JOIN
   exp_assets_sources as so
     ON f.source_id = so.source_id
 WHERE
-  d.entry_id=entryId()
+  d.entry_id=${entryId}
 AND
-  da.col_id_218="imageName()"
+  da.col_id_218="${imageName}"

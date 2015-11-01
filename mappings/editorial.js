@@ -3,18 +3,8 @@
 const Path = require("path"),
       Fs = require("fs"),
       deasync = require("deasync"),
-      MySQL = require("mysql");
+      mySQL = require("../lib/mysql");
 
-const SQLSettings = {
-  host        : process.env.MYSQL_HOST || "192.168.99.100",
-  user        : process.env.MYSQL_USER || "root",
-  password    : process.env.MYSQL_PASSWORD || "password",
-  database    : process.env.MYSQL_DB || "ee_local",
-  port        : 3306,
-  minInterval : 200,
-  connectTimeout: 20000,
-  ssl: process.env.MYSQL_SSL || false
-};
 
 function cleanMarkup(markup){
   if (!markup) {
@@ -58,45 +48,22 @@ function parseSeries(series){
 function getImages(entryId, images) {
   let done = false;
   let results = [];
-  const mysql = MySQL.createConnection(SQLSettings);
-  mysql.connect();
-
 
   for (let image in images) {
-    let query = Fs.readFileSync(
-      Path.join(__dirname, "../images/images.sql"),
-      { encoding: "utf8" }
-    ).toString()
+      let queryPath = Path.join(__dirname, "./util/images.sql");
 
-    query = query.replace("entryId()", entryId);
-    query = query.replace("imageName()", images[image]);
+      const imageData = mySQL(queryPath,
+        {
+          entryId: entryId,
+          imageName: images[image]
+        }
+      );
 
-    mysql.query(query, function(err, rows, fields) {
-      if (err) throw err;
+      results.push(imageData.rows[0]);
 
-      rows.map(row => {
-        const settings = JSON.parse(row.settings);
-        const url = settings.url_prefix + settings.subfolder + row.file_name
-        results.push({
-          position: row.col_id_218,
-          fileName: row.file_name,
-          type: row.col_name,
-          label: row.col_label,
-          url: url
-        })
-      });
-
-      if (Number(image) + 1 === images.length) {
-        done = true;
-      }
-    });
   };
 
-  // make synchronous
-  while (!done) {
-    deasync.runLoopOnce();
-  }
-  mysql.end();
+
 
   return results;
 }
