@@ -2,7 +2,6 @@
 
 const Path = require("path"),
       Fs = require("fs"),
-      deasync = require("deasync"),
       mySQL = require("../lib/mysql");
 
 
@@ -51,27 +50,26 @@ function getImages(entryId, images) {
   let results = [];
 
   for (let image in images) {
-      let queryPath = Path.join(__dirname, "./util/images.sql");
+    let queryPath = Path.join(__dirname, "./util/images.sql");
 
+    const imageData = mySQL(queryPath,
+      {
+        entryId: entryId,
+        imageName: images[image]
+      }
+    );
 
-      const imageData = mySQL(queryPath,
-        {
-          entryId: entryId,
-          imageName: images[image]
-        }
-      );
-
-      imageData.rows.map(row => {
-        const settings = JSON.parse(row.settings);
-        const url = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name
-        results.push({
-          position: row.position,
-          fileName: row.file_name,
-          type: row.image_type,
-          label: row.image_label,
-          url: url
-        })
-      });
+    imageData.rows.map(row => {
+      const settings = JSON.parse(row.settings);
+      const url = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name
+      results.push({
+        position: row.position,
+        fileName: row.file_name,
+        type: row.image_type,
+        label: row.image_label,
+        url: url
+      })
+    });
 
   };
 
