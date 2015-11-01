@@ -26,6 +26,7 @@
     "glob": "^5.0.15",
     "lodash": "^3.10.1",
     "mongoose": "^4.1.11",
-    "mysql-live-select": "^1.0.3"
+    "mysql-live-select": "^1.0.3",
+    "newrelic": "^1.23.0"
   }
 }

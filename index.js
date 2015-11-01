@@ -1,4 +1,6 @@
 "use strict";
+// monitor
+require("newrelic");
 
 const LiveSelect = require("mysql-live-select"),
       Fs = require("fs"),

@@ -46,6 +46,7 @@ plan.remote(function(remote) {
     "MYSQL_PASSWORD=" + process.env.MYSQL_PASSWORD,
     "MONGO_URL=" + process.env.MONGO_URL,
     "MYSQL_SSL='" + process.env.MYSQL_SSL + "'",
+    "NEW_RELIC_KEY=" + process.env.NEW_RELIC_KEY,
     "MONGO_SSL=true"
   ];
 
