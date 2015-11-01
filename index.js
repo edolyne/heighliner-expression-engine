@@ -62,11 +62,11 @@ if (process.env.MONGO_SSL) {
     mongos: {
       sslValidate: true,
       sslCA: [cert],
-      connectWithNoPrimary: true,
-      ca: [cert],
-      ssl: true,
-      poolSize: 1,
-      reconnectTries: 1
+      connectWithNoPrimary: true
+      // ca: [cert],
+      // ssl: true,
+      // poolSize: 1,
+      // reconnectTries: 1
     }
   }
 }
