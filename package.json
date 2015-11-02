@@ -27,6 +27,7 @@
     "glob": "^5.0.15",
     "lodash": "^3.10.1",
     "mongoose": "^4.1.11",
+    "mysql": "^2.9.0",
     "mysql-live-select": "git+https://github.com/NewSpring/mysql-live-select.git",
     "newrelic": "^1.23.0"
   }
