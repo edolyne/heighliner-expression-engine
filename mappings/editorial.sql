@@ -10,6 +10,7 @@ SELECT
   d.field_id_668,
   d.field_id_1028,
   d.field_id_1178,
+  c.channel_name,
   t.title,
   t.url_title,
   t.status,
@@ -23,11 +24,21 @@ SELECT
 FROM
   escId(exp_channel_data) AS d
 LEFT JOIN
+  exp_channels as c
+    ON d.channel_id = c.channel_id
+LEFT JOIN
   exp_channel_titles AS t
     ON d.entry_id = t.entry_id
 LEFT JOIN
   exp_member_data as m
     ON t.author_id = m.member_id
 WHERE
-  d.channel_id = 27 OR d.channel_id = 30 OR d.channel_id = 115
+  /* devotionals */
+  d.channel_id = 27
+OR
+  /* articles */
+  d.channel_id = 30
+OR
+  /* news */
+  d.channel_id = 115
 LIMIT 50

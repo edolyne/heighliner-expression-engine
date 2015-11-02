@@ -79,7 +79,7 @@ function getImages(entryId, images) {
 }
 
 module.exports = function(doc){
-  let tags = []
+  let tags = [];
   if (doc.field_id_1028) {
     tags = doc.field_id_1028.replace("\\n", ",");
     tags = tags.split("\n");
@@ -106,6 +106,8 @@ module.exports = function(doc){
 
   let cleanedData = {
     entryId: doc.entry_id,
+    siteId: doc.site_id,
+    channelName: doc.channel_name,
     title: doc.title,
     status: doc.status,
     meta: {
@@ -148,6 +150,8 @@ module.exports.collection = "editorial";
 
 module.exports.schema = {
   entryId: String,      // entry_id
+  siteId: String,       // site_id
+  channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
   meta: {
