@@ -27,7 +27,7 @@ LEFT JOIN
     ON d.entry_id = t.entry_id
 LEFT JOIN
   exp_member_data as m
-    ON t.author_id = esc(m.member_id)
+    ON t.author_id = m.member_id
 WHERE
-  d.entry_id=303064
+  d.channel_id = 27 OR d.channel_id = 30 OR d.channel_id = 115
 LIMIT 50

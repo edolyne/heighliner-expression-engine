@@ -122,7 +122,7 @@ module.exports = function(doc){
       images: images
     },
     author: {
-      author_id: doc.author_id,
+      authorId: doc.author_id,
       firstName: doc.m_field_id_2 || false,
       lastName: doc.m_field_id_3 || false,
       fullName: doc.m_field_id_4 || false
