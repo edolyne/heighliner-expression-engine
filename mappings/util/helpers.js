@@ -65,7 +65,7 @@ module.exports = {
 
   },
 
-  getImages: (entryId, positions) => {
+  getImages: (entryId, positions, positionColumn) => {
 
     if (!positions) {
       return [];
@@ -80,6 +80,7 @@ module.exports = {
 
       const imageData = mySQL(queryPath,
         {
+          positionColumn: positionColumn,
           entryId: entryId,
           imageName: images[image]
         }
