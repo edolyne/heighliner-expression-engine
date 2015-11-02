@@ -1,5 +1,5 @@
 SELECT
-  da.col_id_218 as position,
+  da.${positionColumn} as position,
   c.col_name as image_type,
   c.col_label as image_label,
   f.file_name,
@@ -28,4 +28,4 @@ LEFT JOIN
 WHERE
   d.entry_id=${entryId}
 AND
-  da.col_id_218="${imageName}"
+  da.${positionColumn}="${imageName}"
