@@ -17,7 +17,7 @@ The following are the need content sections to sync from EE to Meteor
 | channel_id  | channel_name | channel_title | total_entries | Field Group |
 | ----------: | -----------: | ------------: | -------------:| -----------:|
 | 160 | promotions_newspring | NS: Promotions | 8 | Promotions |
-| 3115| news | NS: News | 43 | Editorial |
+| 115| news | NS: News | 43 | Editorial |
 
 #### Sermons (Collection + Collection Entry)
 

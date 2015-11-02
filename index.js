@@ -9,16 +9,21 @@ if (process.env.NEW_RELIC_KEY){
 const LiveSelect = require("mysql-live-select"),
       Fs = require("fs"),
       Path = require("path"),
+      Url = require("url"),
       Mongoose = require('mongoose');
 
-
+let dockerhost = "192.168.99.100"
+if (process.env.DOCKER_HOST) {
+  const hostObj = Url.parse(process.env.DOCKER_HOST)
+  dockerhost = hostObj.host
+}
 /*
 
   SQL
 
 */
 const SQLSettings = {
-  host        : process.env.MYSQL_HOST || "192.168.99.100",
+  host        : process.env.MYSQL_HOST || dockerhost,
   user        : process.env.MYSQL_USER || "root",
   password    : process.env.MYSQL_PASSWORD || "password",
   database    : process.env.MYSQL_DB || "ee_local",
@@ -34,6 +39,7 @@ const mySQL = new LiveSelect(SQLSettings, (err) => {
 
   started = true;
 });
+
 
 function closeAndExit() {
 
@@ -57,7 +63,7 @@ process.on("SIGINT", closeAndExit);
   Mongo
 
 */
-let mongoURL = process.env.MONGO_URL || "mongodb://192.168.99.100/test"
+let mongoURL = process.env.MONGO_URL || "mongodb://" + dockerhost + "/test"
 
 let opts = {};
 if (process.env.MONGO_SSL) {
