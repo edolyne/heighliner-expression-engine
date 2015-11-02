@@ -40,6 +40,7 @@ plan.remote(function(remote) {
 
   remote.log("Setting environment variables");
   var envVars = [
+    "NODE_ENV=production",
     "MYSQL_HOST=" + process.env.MYSQL_HOST,
     "MYSQL_DB=" + process.env.MYSQL_DB,
     "MYSQL_USER=" + process.env.MYSQL_USER,

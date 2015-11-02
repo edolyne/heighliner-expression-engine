@@ -1,6 +1,10 @@
 "use strict";
-// monitor
-require("newrelic");
+
+if (process.env.NEW_RELIC_KEY){
+  // monitor
+  require("newrelic");
+}
+
 
 const LiveSelect = require("mysql-live-select"),
       Fs = require("fs"),
