@@ -1,108 +1,21 @@
 "use strict";
 
-const Path = require("path"),
-      Fs = require("fs"),
-      mySQL = require("../lib/mysql");
+const Helpers = require("./util/helpers");
 
-
-
-function cleanMarkup(markup){
-  if (!markup) {
-    return false;
-  }
-
-  let parsed = markup.match(/src="{assets_\d*.*}"/);
-
-  if (!parsed) {
-    return markup;
-  }
-
-  // remove {assets_IDSTRING:} and make protocal relative
-  markup = markup.replace(/{assets_\d*.*}/, function(link) {
-
-    link = link.trim().substring(0, link.length - 1);
-    link = link.replace(/{assets_\d*:/, "");
-    return link;
-
-  });
-
-  // make all links protocal relative
-  return markup.replace(/https*:\/\//g, "\/\/");
-}
-
-function parseSeries(series){
-  if (!series) {
-    return false;
-  }
-
-  // format: [dddd] [some-thing] Series Title
-  // match[1]: series id
-  // match[2]: series slug
-  // match[3]: series name
-  const seriesRegex = /\[(\d*)\] \[(.*)\] (.*)/g;
-  const parsed = seriesRegex.exec(series);
-
-  return parsed;
-}
-
-function getImages(entryId, images) {
-  let done = false;
-  let results = [];
-
-  for (let image in images) {
-    let queryPath = Path.join(__dirname, "./util/images.sql");
-
-    const imageData = mySQL(queryPath,
-      {
-        entryId: entryId,
-        imageName: images[image]
-      }
-    );
-
-    imageData.rows.map(row => {
-      const settings = JSON.parse(row.settings);
-      const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
-      const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
-      results.push({
-        position: row.position,
-        fileName: row.file_name,
-        type: row.image_type,
-        label: row.image_label,
-        s3: s3,
-        cloudfront: cloudfront
-      })
-    });
-
-  };
-
-  return results;
-}
 
 module.exports = function(doc){
-  let tags = [];
-  if (doc.field_id_1028) {
-    tags = doc.field_id_1028.replace("\\n", ",");
-    tags = tags.split("\n");
-  }
+  let tags = Helpers.getTags(doc.field_id_1028);
 
-  let images = [];
-  if (doc.field_id_664) {
-    images = doc.field_id_664.replace("\\n", ",");
-    images = images.split("\n").filter(image => !!image);
-    if (images.length) {
-      images = getImages(doc.entry_id, images);
-    }
-  }
+  let images = Helpers.getImages(doc.entry_id, doc.field_id_664);
 
-  const month = Number(doc.month) - 1;
-  const date = new Date(doc.year, month, doc.day);
+  const date = Helpers.getDate(doc.day, doc.month, doc.year);
 
   const scripture = doc.field_id_654 === "1" ? false : doc.field_id_654;
 
-  const markup = cleanMarkup(doc.field_id_18);
+  const markup = Helpers.cleanMarkup(doc.field_id_18);
 
-  const series = parseSeries(doc.field_id_653);
-  const fuseSeries = parseSeries(doc.field_id_1178);
+  const series = Helpers.getSeries(doc.field_id_653);
+  const fuseSeries = Helpers.getSeries(doc.field_id_1178);
 
   let cleanedData = {
     entryId: doc.entry_id,
