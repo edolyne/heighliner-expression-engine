@@ -4,7 +4,7 @@ const Path = require("path"),
       Fs = require("fs"),
       mySQL = require("../../lib/mysql");
 
-module.exports = {
+const Helpers = {
 
   getDate: (day, month, year) => {
 
@@ -65,44 +65,76 @@ module.exports = {
 
   },
 
-  getImages: (entryId, positions, positionColumn) => {
+  getMatrixData: (entryId, fields) => {
+
+    if (!entryId || !fields) {
+      return [];
+    }
+
+    const queryPath = Path.join(__dirname, "./matrix.sql");
+
+    const matrixData = mySQL(queryPath, {
+      fields: fields,
+      entryId: entryId
+    });
+
+    return matrixData.rows;
+
+  },
+
+  getFile: (entryId, name, positionColumn) => {
+
+    let queryPath = Path.join(__dirname, "./images.sql");
+    let results = [];
+
+    const imageData = mySQL(queryPath,
+      {
+        positionColumn: positionColumn,
+        entryId: entryId,
+        imageName: name
+      }
+    );
+
+    imageData.rows.map(row => {
+      const settings = JSON.parse(row.settings);
+      const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
+      const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
+      results.push({
+        // position: row.position,
+        fileName: row.file_name,
+        type: row.image_type,
+        label: row.image_label,
+        s3: s3,
+        cloudfront: cloudfront
+      })
+    });
+
+    return results;
+
+
+  },
+
+
+  getFiles: (entryId, positions, positionColumn) => {
 
     if (!positions) {
       return [];
     }
 
-    let images = positions.replace("\\n", ",");
-    images = images.split("\n").filter(image => !!image);
+    let files = positions.replace("\\n", ",");
+    files = files.split("\n").filter(file => !!file);
 
     let results = [];
-    for (let image in images) {
-      let queryPath = Path.join(__dirname, "./images.sql");
+    for (let file in files) {
 
-      const imageData = mySQL(queryPath,
-        {
-          positionColumn: positionColumn,
-          entryId: entryId,
-          imageName: images[image]
-        }
-      );
+      const fileResults = Helpers.getFile(entryId, files[file], positionColumn);
 
-      imageData.rows.map(row => {
-        const settings = JSON.parse(row.settings);
-        const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
-        const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
-        results.push({
-          position: row.position,
-          fileName: row.file_name,
-          type: row.image_type,
-          label: row.image_label,
-          s3: s3,
-          cloudfront: cloudfront
-        })
-      });
-
+      results = results.concat(fileResults);
     };
 
     return results;
   }
 
 };
+
+module.exports = Helpers

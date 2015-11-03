@@ -8,7 +8,7 @@ module.exports = function(doc){
 
   const summary = Helpers.cleanMarkup(doc.summary);
 
-  const images = Helpers.getImages(doc.entry_id, doc.positions, "col_id_343");
+  const images = Helpers.getFiles(doc.entry_id, doc.positions, "da.col_id_343");
 
   let cleanedData = {
     entryId: doc.entry_id,
