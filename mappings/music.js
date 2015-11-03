@@ -26,55 +26,20 @@ module.exports = function(doc){
   const date = Helpers.getDate(doc.day, doc.month, doc.year);
 
   // track files and data from matrix
-  tracks = Helpers.getMatrixData(doc.entry_id, tracks);
-  tracks = tracks.map(track => {
-
-    // lookup s3 link
-    if (track.file) {
-      track.file = Helpers.getFile(
-        doc.entry_id, track.file, "f.file_name"
-      )[0].s3;
-    }
-
-    return {
-      title: track.title,
-      duration: track.duration,
-      file: track.file
-    }
-  }).filter(track => {
-    return track.title && track.duration && track.file
+  tracks = Helpers.getMatrixWithFile(doc.entry_id, tracks, {
+    pivot: "f.file_name",
+    field: "file"
   });
 
   // download files and titles from matrix
-  downloads = Helpers.getMatrixData(doc.entry_id, downloads);
-  downloads = downloads.map(download => {
-
-    // lookup s3 link
-    if (download.file) {
-      download.file = Helpers.getFile(
-        doc.entry_id, download.file, "f.file_name"
-      )[0].s3;
-    }
-
-    return {
-      title: download.title,
-      file: download.file
-    }
-  }).filter(download => {
-    return download.title && download.file
+  downloads = Helpers.getMatrixWithFile(doc.entry_id, downloads, {
+    pivot: "f.file_name",
+    field: "file"
   });
-
 
   // links ctas and urls
   links = Helpers.getMatrixData(doc.entry_id, links);
-  links = links.map(link => {
-    return {
-      link: link.link,
-      cta: link.cta
-    }
-  }).filter(link => {
-    return link.link && link.cta
-  });
+
 
 
   let cleanedData = {

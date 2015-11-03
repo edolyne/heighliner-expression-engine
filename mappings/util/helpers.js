@@ -84,7 +84,46 @@ const Helpers = {
       entryId: entryId
     });
 
+    matrixData.rows = matrixData.rows.map(document => {
+
+      // cast instanceOf RowDataPacket to plain object
+      let obj = {};
+      for (let key in document) {
+        if (!document[key]) { continue; }
+        obj[key] = document[key]
+      }
+      if (Object.keys(obj).length) {
+        return obj
+      }
+      return
+    }).filter(doc => { return doc != undefined});
+
     return matrixData.rows;
+
+  },
+
+  getMatrixWithFile: (entryId, fields, fileObj) => {
+
+    if (!entryId || !fields || !fileObj) {
+      return []
+    }
+
+    let data = Helpers.getMatrixData(entryId, fields);
+    data = data.map(document => {
+
+      // lookup s3 link of file
+      if (document[fileObj.field]) {
+        let file = Helpers.getFile(
+          entryId, document[fileObj.field], fileObj.pivot
+        );
+        document[fileObj.field] = file[0].s3
+      }
+
+      return document
+
+    })
+
+    return data;
 
   },
 
