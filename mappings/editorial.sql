@@ -41,4 +41,4 @@ OR
 OR
   /* news */
   d.channel_id = 115
-LIMIT 50
+LIMIT 1

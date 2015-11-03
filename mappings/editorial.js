@@ -6,7 +6,7 @@ const Helpers = require("./util/helpers");
 module.exports = function(doc){
   let tags = Helpers.getTags(doc.field_id_1028);
 
-  let images = Helpers.getImages(doc.entry_id, doc.field_id_664, "col_id_218");
+  let images = Helpers.getFiles(doc.entry_id, doc.field_id_664, "da.col_id_218");
 
   const date = Helpers.getDate(doc.day, doc.month, doc.year);
 

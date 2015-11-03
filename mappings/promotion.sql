@@ -22,3 +22,4 @@ LEFT JOIN
     ON d.entry_id = t.entry_id
 WHERE
   d.channel_id = 160
+LIMIT 1
