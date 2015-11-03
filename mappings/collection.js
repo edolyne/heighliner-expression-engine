@@ -9,7 +9,7 @@ module.exports = function(doc){
   const startDate = Helpers.getDateFromUnix(doc.start_date);
   const endDate = Helpers.getDateFromUnix(doc.end_date);
 
-  const tags = Helpers.getTags(doc.tags);
+  const tags = Helpers.splitByNewlines(doc.tags);
 
   const description = Helpers.cleanMarkup(doc.description);
 

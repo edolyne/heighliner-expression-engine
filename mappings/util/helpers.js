@@ -44,7 +44,7 @@ const Helpers = {
 
   },
 
-  getTags: (tags) => {
+  splitByNewlines: (tags) => {
     if (tags) {
       tags = tags.replace("\\n", ",");
       return tags.split("\n");
@@ -178,6 +178,34 @@ const Helpers = {
     };
 
     return results;
+  },
+
+
+  getVideo: (entryId, fieldId) => {
+
+    let queryPath = Path.join(__dirname, "./videos.sql");
+    let results = [];
+
+    const videoData = mySQL(queryPath,
+      {
+        entryId: entryId,
+        fieldId: fieldId
+      }
+    );
+
+    videoData.rows.map(row => {
+      const settings = JSON.parse(row.settings);
+      const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
+      const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
+      results.push({
+        fileName: row.file_name,
+        s3: s3,
+        cloudfront: cloudfront
+      })
+    });
+
+    return results[0];
+
   }
 
 };

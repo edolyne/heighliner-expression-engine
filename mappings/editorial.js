@@ -4,7 +4,7 @@ const Helpers = require("./util/helpers");
 
 
 module.exports = function(doc){
-  let tags = Helpers.getTags(doc.field_id_1028);
+  let tags = Helpers.splitByNewlines(doc.field_id_1028);
 
   let images = Helpers.getFiles(doc.entry_id, doc.field_id_664, "da.col_id_218");
 
