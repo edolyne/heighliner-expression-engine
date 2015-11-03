@@ -24,23 +24,7 @@ module.exports = function(doc){
     pivot: "f.file_name",
     field: "file"
   });
-  // downloads = downloads.map(download => {
-  //
-  //   // lookup s3 link
-  //   if (download.file) {
-  //     download.file = Helpers.getFile(
-  //       doc.entry_id, download.file, "f.file_name"
-  //     )[0].s3;
-  //   }
-  //
-  //   return {
-  //     description: download.description,
-  //     title: download.title,
-  //     file: download.file
-  //   }
-  // }).filter(download => {
-  //   return download.description && download.title && download.file
-  // });
+
 
   if (doc.positions === "1") {
     doc.positions = "Hero Image"; // why ee?
