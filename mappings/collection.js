@@ -20,24 +20,11 @@ module.exports = function(doc){
   ].join(",\n");
 
   // we should put this in helpers
-  downloads = Helpers.getMatrixData(doc.entry_id, downloads);
-  downloads = downloads.map(download => {
-
-    // lookup s3 link
-    if (download.file) {
-      download.file = Helpers.getFile(
-        doc.entry_id, download.file, "f.file_name"
-      )[0].s3;
-    }
-
-    return {
-      description: download.description,
-      title: download.title,
-      file: download.file
-    }
-  }).filter(download => {
-    return download.description && download.title && download.file
+  downloads = Helpers.getMatrixWithFile(doc.entry_id, downloads, {
+    pivot: "f.file_name",
+    field: "file"
   });
+
 
   if (doc.positions === "1") {
     doc.positions = "Hero Image"; // why ee?
