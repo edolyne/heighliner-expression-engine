@@ -12,6 +12,12 @@ const Helpers = {
 
   },
 
+  getDateFromUnix: (timestamp) => {
+
+    return new Date(timestamp * 1000);
+
+  },
+
   cleanMarkup: (markup) => {
 
     if (!markup) {
