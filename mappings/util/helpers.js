@@ -181,28 +181,30 @@ const Helpers = {
   },
 
 
-  getVideo: (entryId, fieldId) => {
+  getMedia: (entryId) => {
 
-    let queryPath = Path.join(__dirname, "./videos.sql");
+    let queryPath = Path.join(__dirname, "./media.sql");
+    let results = [];
 
-    const videoData = mySQL(queryPath,
+    const mediaData = mySQL(queryPath,
       {
-        entryId: entryId,
-        fieldId: fieldId
+        entryId: entryId
       }
     );
 
-    const result = videoData.rows[0];
+    mediaData.rows.map(row => {
+      const settings = JSON.parse(row.settings);
+      const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
+      const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
+      results.push({
+        fileName: row.file_name,
+        fileType: row.media_type,
+        s3: s3,
+        cloudfront: cloudfront
+      })
+    });
 
-    const settings = JSON.parse(result.settings);
-    const s3 = settings.url_prefix + settings.subfolder + result.sub_path + result.file_name;
-    const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + result.sub_path + result.file_name;
-
-    return {
-      fileName: result.file_name,
-      s3: s3,
-      cloudfront: cloudfront
-    };
+    return results;
 
   }
 

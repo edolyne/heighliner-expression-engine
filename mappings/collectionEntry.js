@@ -13,10 +13,13 @@ module.exports = function(doc){
 
   const description = Helpers.cleanMarkup(doc.description);
 
-  const lowBitrate = Helpers.getVideo(doc.entry_id, "674");
-  const mediumBitrate = Helpers.getVideo(doc.entry_id, "673");
-  const highBitrate = Helpers.getVideo(doc.entry_id, "672");
-  const audio = Helpers.getVideo(doc.entry_id, "675");
+  let media = [];
+  if (doc.video_low_bitrate ||
+      doc.video_medium_bitrate ||
+      doc.video_high_bitrate ||
+      doc.audio) {
+    media = Helpers.getMedia(doc.entry_id);
+  }
 
   let cleanedData = {
     entryId: doc.entry_id,
@@ -38,12 +41,7 @@ module.exports = function(doc){
       description: description,
       ooyalaId: doc.ooyala_id
     },
-    video: {
-      lowBitrate: lowBitrate,
-      mediumBitrate: mediumBitrate,
-      highBitrate: highBitrate,
-      audio: audio
-    }
+    media: media
   };
 
   return cleanedData;
@@ -73,12 +71,12 @@ module.exports.schema = {
     description: String,// description
     ooyalaId: String,   // ooyala_id
   },
-  video: {
-    lowBitrate: Object,     // video_low_bitrate
-    mediumBitrate: Object,  // video_medium_bitrate
-    highBitrate: Object,    // video_high_bitrate
-    audio: Object           // audio
-  }
+  media: [{
+    fileName: String,
+    fileType: String,
+    s3: String,
+    cloudfront: String
+  }]
 };
 
 module.exports.triggers = [
