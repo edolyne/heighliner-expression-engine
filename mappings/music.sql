@@ -26,3 +26,4 @@ LEFT JOIN
     ON d.entry_id = t.entry_id
 WHERE
   d.channel_id = 47
+LIMIT 1

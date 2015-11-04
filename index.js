@@ -10,7 +10,8 @@ const LiveSelect = require("mysql-live-select"),
       Fs = require("fs"),
       Path = require("path"),
       Url = require("url"),
-      Mongoose = require('mongoose');
+      Mongoose = require('mongoose'),
+      DDPServer = require("./lib/ddp");
 
 let dockerhost = "192.168.99.100"
 if (process.env.DOCKER_HOST) {
@@ -63,34 +64,44 @@ process.on("SIGINT", closeAndExit);
   Mongo
 
 */
-let mongoURL = process.env.MONGO_URL || "mongodb://" + dockerhost + "/test"
+// let mongoURL = process.env.MONGO_URL || "mongodb://" + dockerhost + "/test"
+//
+// let opts = {};
+// if (process.env.MONGO_SSL) {
+//   const cert = Fs.readFileSync(Path.join(__dirname, "compose.pem"));
+//   opts.server = {
+//     sslValidate: true,
+//     sslCA: [cert],
+//     connectWithNoPrimary: true
+//     // ca: [cert],
+//     // ssl: true,
+//     // poolSize: 1,
+//     // reconnectTries: 1
+//
+//   }
+// }
+//
+// Mongoose.connect(mongoURL, opts);
+//
+// const MongoDB = Mongoose.connection;
+//
+// MongoDB.on("error", (err) => {
+//   if (err) { console.log(err); closeAndExit(); }
+// });
+//
+// MongoDB.once("open", function (callback) {
+//   // yay!
+// })
 
-let opts = {};
-if (process.env.MONGO_SSL) {
-  const cert = Fs.readFileSync(Path.join(__dirname, "compose.pem"));
-  opts.server = {
-    sslValidate: true,
-    sslCA: [cert],
-    connectWithNoPrimary: true
-    // ca: [cert],
-    // ssl: true,
-    // poolSize: 1,
-    // reconnectTries: 1
+/*
 
-  }
-}
+  DDP Server
 
-Mongoose.connect(mongoURL, opts);
+  Alternative to duplication of data
 
-const MongoDB = Mongoose.connection;
+*/
 
-MongoDB.on("error", (err) => {
-  if (err) { console.log(err); closeAndExit(); }
-});
-
-MongoDB.once("open", function (callback) {
-  // yay!
-})
+const DDP = new DDPServer();
 
 /*
 
@@ -100,4 +111,4 @@ MongoDB.once("open", function (callback) {
 */
 const Sync = require("./lib/sync");
 
-Sync(mySQL, MongoDB);
+Sync(mySQL, DDP);

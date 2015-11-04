@@ -7,6 +7,8 @@ heighliner:
   links:
     - mySQL
     - mongoDB
+  ports:
+    - "80:8080"
 
 mySQL:
   image: mysql:5.5
