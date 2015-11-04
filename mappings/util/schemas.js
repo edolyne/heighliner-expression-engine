@@ -22,6 +22,7 @@ const Meta = {
   entryDate: Date,
   startDate: Date,
   endDate: Date,
+  actualDate: Date,
   channelId: String
 }
 

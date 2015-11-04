@@ -14,6 +14,8 @@ module.exports = function(doc){
 
   const description = Helpers.cleanMarkup(doc.description);
 
+  const images = Helpers.getFiles(doc.entry_id, doc.positions, "da.col_id_232");
+
   let media = [];
   if (doc.video_low_bitrate ||
       doc.video_medium_bitrate ||
@@ -22,25 +24,36 @@ module.exports = function(doc){
     media = Helpers.getMedia(doc.entry_id);
   }
 
+  let week = null;
+  // only include week if sermon
+  // b/c stories returns "Trailer"?
+  if (doc.channel_id === "3") {
+    week = doc.week;
+  }
+
   let cleanedData = {
     entryId: doc.entry_id,
     siteId: doc.site_id,
     channelName: doc.channel_name,
     status: doc.status,
     title: doc.title,
+    subtitle: doc.subtitle,
     seriesId: doc.series_id,
     meta: {
+      urlTitle: doc.url_title,
       date: date,
       channelId: doc.channel_id,
       entryDate: entryDate,
       actualDate: actualDate
     },
     content: {
-      week: doc.week,
+      body: doc.body,
+      week: week,
       speakers: speakers,
       tags: tags,
       description: description,
-      ooyalaId: doc.ooyala_id
+      ooyalaId: doc.ooyala_id,
+      images: images
     },
     media: media
   };
@@ -58,14 +71,17 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
+  subtitle: String,     // subtitle
   seriesId: String,     // series_id
   meta: Schemas.Meta,
   content: {
+    body: String,       // body
     week: String,       // week
     speakers: String,   // speakers
     tags: String,       // tags
     description: String,// description
     ooyalaId: String,   // ooyala_id
+    images: [Schemas.Images]   // positions
   },
   media: [Schemas.Media]
 };

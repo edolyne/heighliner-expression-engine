@@ -26,10 +26,6 @@ module.exports = function(doc){
     field: "file"
   });
 
-
-  if (doc.positions === "1") {
-    doc.positions = "Hero Image"; // why ee?
-  }
   const images = Helpers.getFiles(doc.entry_id, doc.positions, "da.col_id_269");
 
   let cleanedData = {
@@ -75,7 +71,7 @@ module.exports.schema = {
     description: String,  // description
     hashtag: String,      // hashtag
     ooyalaId: String,     // ooyala_id
-    images: [{}],         // positions
+    images: [Schemas.Images],         // positions
     collectionBackgroundColor: String, // collection_background_color
     tags: String          // tags
   },

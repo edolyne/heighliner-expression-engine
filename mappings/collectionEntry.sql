@@ -14,6 +14,8 @@ SELECT
   d.field_id_672 as video_high_bitrate,
   d.field_id_675 as audio,
   d.field_id_678 as body,
+  d.field_id_329 as subtitle,
+  d.field_id_683 as positions,
   c.channel_name,
   t.title,
   t.url_title,
@@ -34,8 +36,11 @@ LEFT JOIN
   exp_playa_relationships as p
     ON d.entry_id = p.parent_entry_id
 WHERE
-  d.channel_id = 3
-AND
-  p.parent_field_id = 17
-
-LIMIT 50
+(
+    /* sermons */
+    d.channel_id = 3
+  OR
+    /* stories */
+    d.channel_id = 5
+)
+LIMIT 1
