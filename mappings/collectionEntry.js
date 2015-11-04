@@ -1,6 +1,7 @@
 "use strict";
 
-const Helpers = require("./util/helpers");
+const Helpers = require("./util/helpers"),
+      Schemas = require("./util/schemas");
 
 
 module.exports = function(doc){
@@ -71,12 +72,7 @@ module.exports.schema = {
     description: String,// description
     ooyalaId: String,   // ooyala_id
   },
-  media: [{
-    fileName: String,
-    fileType: String,
-    s3: String,
-    cloudfront: String
-  }]
+  media: [Schemas.Media]
 };
 
 module.exports.triggers = [

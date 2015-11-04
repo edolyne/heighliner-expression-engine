@@ -9,6 +9,14 @@ const Images = {
   cloudfront: String
 }
 
+const Media = {
+  fileName: String,
+  fileType: String,
+  s3: String,
+  cloudfront: String
+}
+
 module.exports = {
-  Images: Images
+  Images: Images,
+  Media: Media
 }
