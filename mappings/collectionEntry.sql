@@ -16,6 +16,7 @@ SELECT
   d.field_id_678 as body,
   d.field_id_329 as subtitle,
   d.field_id_683 as positions,
+  d.field_id_643 as scripture,
   c.channel_name,
   t.title,
   t.url_title,
@@ -23,7 +24,7 @@ SELECT
   t.year,
   t.month,
   t.day,
-  p.child_entry_id as series_id
+  p.child_entry_id as collection_id
 FROM
   exp_channel_data AS d
 LEFT JOIN
@@ -42,5 +43,8 @@ WHERE
   OR
     /* stories */
     d.channel_id = 5
+  OR
+    /* studies entries */
+    d.channel_id = 117
 )
 LIMIT 1

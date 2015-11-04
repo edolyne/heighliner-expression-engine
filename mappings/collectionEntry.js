@@ -14,6 +14,8 @@ module.exports = function(doc){
 
   const description = Helpers.cleanMarkup(doc.description);
 
+  const scripture = doc.scripture === "1" ? false : doc.scripture;
+
   const images = Helpers.getFiles(doc.entry_id, doc.positions, "da.col_id_232");
 
   let media = [];
@@ -38,7 +40,7 @@ module.exports = function(doc){
     status: doc.status,
     title: doc.title,
     subtitle: doc.subtitle,
-    seriesId: doc.series_id,
+    collectionId: doc.collection_id,
     meta: {
       urlTitle: doc.url_title,
       date: date,
@@ -48,6 +50,7 @@ module.exports = function(doc){
     },
     content: {
       body: doc.body,
+      scripture: scripture,
       week: week,
       speakers: speakers,
       tags: tags,
@@ -72,10 +75,11 @@ module.exports.schema = {
   status: String,       // status
   title: String,        // title
   subtitle: String,     // subtitle
-  seriesId: String,     // series_id
+  collectionId: String,     // series_id
   meta: Schemas.Meta,
   content: {
     body: String,       // body
+    scripture: String,  // scripture
     week: String,       // week
     speakers: String,   // speakers
     tags: String,       // tags
