@@ -1,6 +1,7 @@
 "use strict";
 
-const Helpers = require("./util/helpers");
+const Helpers = require("./util/helpers"),
+      Schemas = require("./util/schemas");
 
 
 module.exports = function(doc){
@@ -74,18 +75,11 @@ module.exports.schema = {
     channelId: String   // channel_id
   },
   content: {
-    body: String,       // field_id_18
-    scripture: String,  // field_id_654
-    tags: String,       // field_id_1028
-    ooyalaId: String,   // field_id_668
-    images: [{          // field_id_664
-      position: String,
-      fileName: String,
-      fileType: String,
-      fileLabel: String,
-      s3: String,
-      cloudfront: String
-    }]
+    body: String,             // field_id_18
+    scripture: String,        // field_id_654
+    tags: String,             // field_id_1028
+    ooyalaId: String,         // field_id_668
+    images: [Schemas.Images]  // field_id_664
   },
   author: {
     authorId: String,   // author_id
