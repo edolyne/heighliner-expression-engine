@@ -38,5 +38,8 @@ WHERE
 OR
   /* studies */
   d.channel_id = 114
+OR
+  /* group studies */
+  d.channel_id = 52
 )
 LIMIT 1
