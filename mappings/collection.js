@@ -1,6 +1,7 @@
 "use strict";
 
-const Helpers = require("./util/helpers");
+const Helpers = require("./util/helpers"),
+      Schemas = require("./util/schemas");
 
 
 module.exports = function(doc){
@@ -69,14 +70,7 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
-  meta: {
-    urlTitle: String,   // url_title
-    date: Date,         //
-    entryDate: Date,    // entry_date
-    startDate: Date,    // start_date
-    endDate: Date,      // end_date
-    channelId: String   // channel_id
-  },
+  meta: Schemas.Meta,
   content: {
     description: String,  // description
     hashtag: String,      // hashtag

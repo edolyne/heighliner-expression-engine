@@ -16,7 +16,17 @@ const Media = {
   cloudfront: String
 }
 
+const Meta = {
+  urlTitle: String,
+  date: Date,
+  entryDate: Date,
+  startDate: Date,
+  endDate: Date,
+  channelId: String
+}
+
 module.exports = {
   Images: Images,
-  Media: Media
+  Media: Media,
+  Meta: Meta
 }

@@ -41,10 +41,7 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
-  meta: {
-    date: Date,         //
-    channelId: String   // channel_id
-  },
+  meta: Schemas.Meta,
   content: {
     summary: String,          // field_id_1071 as summary
     label: String,            // field_id_1072 as label

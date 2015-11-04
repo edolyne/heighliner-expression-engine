@@ -68,12 +68,7 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
-  meta: {
-    urlTitle: String,   // url_title
-    siteId: String,     // site_id
-    date: Date,         //
-    channelId: String   // channel_id
-  },
+  meta: Schemas.Meta,
   content: {
     body: String,             // field_id_18
     scripture: String,        // field_id_654

@@ -59,12 +59,7 @@ module.exports.schema = {
   status: String,       // status
   title: String,        // title
   seriesId: String,     // series_id
-  meta: {
-    date: Date,
-    channelId: String,  // channel_id
-    entryDate: Date,    // entry_date
-    actualDate: Date    // actual_date
-  },
+  meta: Schemas.Meta,
   content: {
     week: String,       // week
     speakers: String,   // speakers

@@ -1,6 +1,7 @@
 "use strict";
 
-const Helpers = require("./util/helpers");
+const Helpers = require("./util/helpers"),
+      Schemas = require("./util/schemas");
 
 
 module.exports = function(doc){
@@ -75,10 +76,7 @@ module.exports.schema = {
   title: String,        // title
   image: String,
   blurredImage: String,
-  meta: {
-    date: Date,         //
-    channelId: String   // channel_id
-  },
+  meta: Schemas.Meta,
   tracks: [{
     title: String,
     duration: String,
