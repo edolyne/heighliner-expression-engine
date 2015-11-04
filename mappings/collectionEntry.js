@@ -24,6 +24,13 @@ module.exports = function(doc){
     media = Helpers.getMedia(doc.entry_id);
   }
 
+  let week = null;
+  // only include week if sermon
+  // b/c stories returns "Trailer"?
+  if (doc.channel_id === "3") {
+    week = doc.week;
+  }
+
   let cleanedData = {
     entryId: doc.entry_id,
     siteId: doc.site_id,
@@ -41,7 +48,7 @@ module.exports = function(doc){
     },
     content: {
       body: doc.body,
-      week: doc.week,
+      week: week,
       speakers: speakers,
       tags: tags,
       description: description,
