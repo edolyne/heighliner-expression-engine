@@ -165,6 +165,10 @@ const Helpers = {
       return [];
     }
 
+    if (positions === "1") {
+      positions = "Hero Image"; // why ee?
+    }
+
     let files = positions.replace("\\n", ",");
     files = files.split("\n").filter(file => !!file);
 
