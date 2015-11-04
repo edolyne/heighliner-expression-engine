@@ -78,7 +78,14 @@ module.exports.schema = {
     scripture: String,  // field_id_654
     tags: String,       // field_id_1028
     ooyalaId: String,   // field_id_668
-    images: [{}]          // field_id_664
+    images: [{          // field_id_664
+      position: String,
+      fileName: String,
+      fileType: String,
+      fileLabel: String,
+      s3: String,
+      cloudfront: String
+    }]
   },
   author: {
     authorId: String,   // author_id

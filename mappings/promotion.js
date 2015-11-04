@@ -47,7 +47,14 @@ module.exports.schema = {
   content: {
     summary: String,    // field_id_1071 as summary
     label: String,      // field_id_1072 as label
-    images: [{}]        // field_id_1069 as positions
+    images: [{          // field_id_1069 as positions
+      position: String,
+      fileName: String,
+      fileType: String,
+      fileLabel: String,
+      s3: String,
+      cloudfront: String
+    }]
   }
 }
 

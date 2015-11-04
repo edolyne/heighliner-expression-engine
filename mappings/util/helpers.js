@@ -145,10 +145,9 @@ const Helpers = {
       const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
       const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
       results.push({
-        // position: row.position,
         fileName: row.file_name,
-        type: row.image_type,
-        label: row.image_label,
+        fileType: row.image_type,
+        fileLabel: row.image_label,
         s3: s3,
         cloudfront: cloudfront
       })
