@@ -75,7 +75,7 @@ module.exports.schema = {
     description: String,  // description
     hashtag: String,      // hashtag
     ooyalaId: String,     // ooyala_id
-    images: [{}],         // positions
+    images: [Schemas.Images],         // positions
     collectionBackgroundColor: String, // collection_background_color
     tags: String          // tags
   },
