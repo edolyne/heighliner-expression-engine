@@ -18,7 +18,8 @@ SELECT
   t.status,
   t.year,
   t.month,
-  t.day
+  t.day,
+  p.child_entry_id as series_id
 FROM
   escId(exp_channel_data) AS d
 LEFT JOIN
@@ -27,7 +28,15 @@ LEFT JOIN
 LEFT JOIN
   exp_channel_titles AS t
     ON d.entry_id = t.entry_id
+LEFT JOIN
+  exp_playa_relationships as p
+    ON d.entry_id = p.parent_entry_id
 WHERE
+(
   /* series */
   d.channel_id = 4
+OR
+  /* studies */
+  d.channel_id = 114
+)
 LIMIT 1

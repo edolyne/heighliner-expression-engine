@@ -34,6 +34,7 @@ module.exports = function(doc){
     channelName: doc.channel_name,
     status: doc.status,
     title: doc.title,
+    seriesId: doc.series_id,
     meta: {
       urlTitle: doc.url_title,
       date: date,
@@ -66,6 +67,7 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
+  seriesId: String,     // series_id
   meta: Schemas.Meta,
   content: {
     description: String,  // description
