@@ -12,6 +12,12 @@ const Helpers = {
 
   },
 
+  getDateFromUnix: (timestamp) => {
+
+    return new Date(timestamp * 1000);
+
+  },
+
   cleanMarkup: (markup) => {
 
     if (!markup) {
@@ -38,7 +44,7 @@ const Helpers = {
 
   },
 
-  getTags: (tags) => {
+  splitByNewlines: (tags) => {
     if (tags) {
       tags = tags.replace("\\n", ",");
       return tags.split("\n");
@@ -78,7 +84,46 @@ const Helpers = {
       entryId: entryId
     });
 
+    matrixData.rows = matrixData.rows.map(document => {
+
+      // cast instanceOf RowDataPacket to plain object
+      let obj = {};
+      for (let key in document) {
+        if (!document[key]) { continue; }
+        obj[key] = document[key]
+      }
+      if (Object.keys(obj).length) {
+        return obj
+      }
+      return
+    }).filter(doc => { return doc != undefined});
+
     return matrixData.rows;
+
+  },
+
+  getMatrixWithFile: (entryId, fields, fileObj) => {
+
+    if (!entryId || !fields || !fileObj) {
+      return []
+    }
+
+    let data = Helpers.getMatrixData(entryId, fields);
+    data = data.map(document => {
+
+      // lookup s3 link of file
+      if (document[fileObj.field]) {
+        let file = Helpers.getFile(
+          entryId, document[fileObj.field], fileObj.pivot
+        );
+        document[fileObj.field] = file[0].s3
+      }
+
+      return document
+
+    })
+
+    return data;
 
   },
 
@@ -100,10 +145,9 @@ const Helpers = {
       const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
       const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
       results.push({
-        // position: row.position,
         fileName: row.file_name,
-        type: row.image_type,
-        label: row.image_label,
+        fileType: row.image_type,
+        fileLabel: row.image_label,
         s3: s3,
         cloudfront: cloudfront
       })
@@ -133,6 +177,34 @@ const Helpers = {
     };
 
     return results;
+  },
+
+
+  getMedia: (entryId) => {
+
+    let queryPath = Path.join(__dirname, "./media.sql");
+    let results = [];
+
+    const mediaData = mySQL(queryPath,
+      {
+        entryId: entryId
+      }
+    );
+
+    mediaData.rows.map(row => {
+      const settings = JSON.parse(row.settings);
+      const s3 = settings.url_prefix + settings.subfolder + row.sub_path + row.file_name;
+      const cloudfront = "//dg0ddngxdz549.cloudfront.net/" + settings.subfolder + row.sub_path + row.file_name;
+      results.push({
+        fileName: row.file_name,
+        fileType: row.media_type,
+        s3: s3,
+        cloudfront: cloudfront
+      })
+    });
+
+    return results;
+
   }
 
 };

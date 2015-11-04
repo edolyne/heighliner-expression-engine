@@ -1,0 +1,32 @@
+"use strict";
+
+const Images = {
+  position: String,
+  fileName: String,
+  fileType: String,
+  fileLabel: String,
+  s3: String,
+  cloudfront: String
+}
+
+const Media = {
+  fileName: String,
+  fileType: String,
+  s3: String,
+  cloudfront: String
+}
+
+const Meta = {
+  urlTitle: String,
+  date: Date,
+  entryDate: Date,
+  startDate: Date,
+  endDate: Date,
+  channelId: String
+}
+
+module.exports = {
+  Images: Images,
+  Media: Media,
+  Meta: Meta
+}

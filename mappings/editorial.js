@@ -1,10 +1,11 @@
 "use strict";
 
-const Helpers = require("./util/helpers");
+const Helpers = require("./util/helpers"),
+      Schemas = require("./util/schemas");
 
 
 module.exports = function(doc){
-  let tags = Helpers.getTags(doc.field_id_1028);
+  let tags = Helpers.splitByNewlines(doc.field_id_1028);
 
   let images = Helpers.getFiles(doc.entry_id, doc.field_id_664, "da.col_id_218");
 
@@ -67,18 +68,13 @@ module.exports.schema = {
   channelName: String,  // channel_name
   status: String,       // status
   title: String,        // title
-  meta: {
-    urlTitle: String,   // url_title
-    siteId: String,     // site_id
-    date: Date,         //
-    channelId: String   // channel_id
-  },
+  meta: Schemas.Meta,
   content: {
-    body: String,       // field_id_18
-    scripture: String,  // field_id_654
-    tags: String,       // field_id_1028
-    ooyalaId: String,   // field_id_668
-    images: [{}]          // field_id_664
+    body: String,             // field_id_18
+    scripture: String,        // field_id_654
+    tags: String,             // field_id_1028
+    ooyalaId: String,         // field_id_668
+    images: [Schemas.Images]  // field_id_664
   },
   author: {
     authorId: String,   // author_id
