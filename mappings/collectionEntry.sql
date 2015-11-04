@@ -46,5 +46,10 @@ WHERE
   OR
     /* studies entries */
     d.channel_id = 117
+  OR
+    /* group studies entries */
+    d.channel_id = 53
 )
+AND
+  d.entry_id = 298159
 LIMIT 1
